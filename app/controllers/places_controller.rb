@@ -4,6 +4,11 @@ class PlacesController < ApplicationController
     render json: places.as_json
   end
 
+  def show
+    place = Place.find_by(id: params[:id])
+    render json: place
+  end
+
   def create
     place = Place.new(
       name: params[:name],
@@ -22,7 +27,7 @@ class PlacesController < ApplicationController
     place = Place.find_by(id: params[:id])
     place.name = params[:name] || place.name
     place.address = params[:address] || place.address
-    if place.savecd 
+    if place.save
       render json: place.as_json
     else
       render json: {errors: place.errors.full_message},
